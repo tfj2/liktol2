@@ -1,0 +1,160 @@
+---
+title: "Tölvuverkefni 2"
+author: "Líkindareikningur og tölfræði: STÆ203G, HAG206G, MAS201F"
+output: 
+  rmarkdown::html_document:
+    theme: cosmo
+---
+
+Í þessu verkefni munið þið vinna með úrtaksdreifingu meðaltals,
+lögmál mikils fjölda og höfuðmarkgildisregluna sem stundum er nefnd höfuðsetning tölfræðinnar (e. central limit theorem).
+
+Þið munið vinna með gagnasafn sem notað var við endurmat fasteignamats íbúðarhúsnæðis 2017. Þið getið lesið ykkur til um gagnasagnið hér:
+
+<https://www.skra.is/library/Samnyttar-skrar-/Fyrirtaeki-stofnanir/Fasteignamat-2017/Fasteignamat2017.pdf>
+
+Töflu yfir matssvæði er að finna á síðu 59.
+
+Gagnaskráin sem þið eigið að vinna með má hlaða niður af Uglu, `husnaedi.csv` (úr möppunni Tölvuverkefni 2).
+
+**Skýrslan skal að lokum sett upp í ` .Rmd ` skrá til að prjóna ` .html ` skrá (LaTeX fólk má vinna í ` .Rnw ` skrá og skila ` .pdf ` skrá).
+` .html ` skráin verður til í sömu möppu og ` .Rmd ` skráin þegar þið prjónið.**
+
+**Þið megið vinna verkefnið tvö og tvö saman en ekki í stærri hópum.
+Merkja þarf lausnir með nafni og HÍ-notendanafni þeirra sem unnu lausnina.
+Hlaða skal ` .html ` skrá inn á Uglu ekki síðar en 26. febrúar klukkan 23:59.**
+
+Frágangur gildir 10% af einkunn fyrir verkefni
+(merkja verkefni með nafni og notendanafni, merkingar á ásum, uppsetning, merkið myndir fyrir neðan og töflur fyrir ofan, o.s.fr.) 
+
+#### a)
+Lesið gagnaskrána inn og geymið í hlut sem ber upphafsstafi þeirra sem verkefnið vinna
+(ef Gréta Halldórsdóttir og Sigurður Jónsson eru að vinna saman skulu þau nefna hlutinn gs en ef Atli Pétursson er að vinna einn skal hann nefna hlutinn sinn ap).
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+  library(readr)
+  library(dplyr)
+  library(ggplot2)
+```
+
+```{r message=FALSE}
+at <- read.csv("husnaedi.csv", header= TRUE, sep =";")
+glimpse(at)
+```
+
+Hver hópur á að vinna með íbúðareignir úr einu af eftirfarandi hverfum:
+
+- Miðbær: Frá Tjörn að Snorrabraut (matssvæði 20)
+- Holt/Tún (matssvæði 90)
+- Laugarneshverfi/Vogar (matssvæði 100)
+
+Til að ákvarða hvaða hverfi þið eigið að vinna með skulið þið nota kóðann hér að neðan.
+Nemandinn sem er á undan í stafrófinu setur inn fæðingardaginn sinn í `set.seed() ` skipunina.
+Í kóðanum hér neðan er einstaklingurinn fæddur 2. apríl.
+```{r}
+set.seed(2009)
+(hverfi<-sample(c(20,90,100),1))
+```
+
+Notið svo `filter` skipunina til að velja úr þær línur úr stóru gagnatöflunni sem innihalda aðeins **íbúðareignir úr viðeigandi hverfi**.
+Þið skuluð yfirskrifa stóru gagnatöfluna (þ.e. notið sama nafn). 
+```{r}
+at <- filter(at, at$matssvaedi== hverfi)
+glimpse(at)
+```
+
+#### b)
+Teiknið stuðlarit af verði íbúðanna - munið að merkja ásana rétt.
+
+Reiknið og tilgreinið meðalverð og dreifni verðs íbúðanna í samfelldu máli
+(ekki harðkóða gildin heldur látið R reikna þau út fyrir ykkur, geymið í breytum og látið knit birta gildi breytanna í samfelldum texta í skýrslunni).
+
+```{r}
+b <- ggplot(at, aes(nuvirdi)) + geom_histogram()
+b
+```
+
+```{r}
+m = mean(at$nuvirdi)
+s = sd(at$nuvirdi)
+
+print("Meðaltal verðs á íbúðunum (reiknað með mean falli) er:")
+print(m)
+print("og dreifni (reiknað með standard deviation falli) er:")
+print(s)
+```
+#### c)
+Við lítum nú svo á að við höfum mælingar á öllu þýðinu, þ.e. íbúðirnar í gagnatöflunni ykkar eru þýðið og eiginleikinn sem við höfum mælt er verð þeirra, `nuvirdi`.
+Við þekkjum því $\mu$ og $\sigma^2$ og reiknuðum þessar stærðir í lið b). 
+
+Búið til 5000 úrtök úr þýðinu af stærðum $n = 1, 2, 3, \ldots, 5000$,
+þ.e. fyrsta úrtakið inniheldur einn gagnapunkt, það næsta tvo, það þriðja þrjá o.s.fr. og það síðasta 5000 gagnapunkta.
+Reiknið meðaltalið af hverju og einu úrtaki þ.a. þið hafið 5000 meðaltöl í vigri.
+
+Allt þetta má gera í einni línu af kóða með því að nota föllin `sapply()` og `sample()`.
+Munið að hægt er að sækja dálkinn `nuvirdi` í gagnarammann `jh` með `jh$nuvirdi`.
+
+Teiknið **línurit** af meðaltölunum, þar sem gildi meðaltalanna er á y-ás en númer úrtaks er á x-ás.
+Teiknið inn á línuritið beina lárétta rauða línu sem sýnir sanna meðaltal þýðisins, $\mu$ reiknað í b) lið.
+Þetta má gera með því að nota `qplot() + geom_hline()` föllin.
+
+Útskýrið í samfelldu máli hvað er að gerast á myndina og tiltakið hvaða líkindafræðilega fyrirbæri myndin sýnir.
+
+```{r}
+n=1:5000
+medaltal=sapply(n,function(x) {mean(sample(at$nuvirdi, x ,replace=TRUE))})
+b <- tibble(n, medaltal) %>% ggplot(aes(x=n, y=medaltal)) + geom_line()
+b + geom_hline(yintercept = m, color = "red")
+
+```
+
+
+#### d)
+
+Takið 10000 sinnum úrtak af stærð $n = 2$ úr þýðinu, reiknið meðaltal úrtakanna og geymið í vigri sem heitir `staerd1`.
+Þessi vigur á að innihalda 10000 meðaltöl.
+
+Endurtakið leikinn fyrir $n = 5, \ n = 20$ og $n = 400$ og nefnið vigrana `staerd2, staerd3 ` og ` staerd4`.
+Notið `replicate()` aðferðina til að auðvelda ykkur verkið.
+
+```{r}
+```
+
+
+#### e)
+Í þessum lið eigið þið að teikna stuðlarit af ` staerd1, staerd2, staerd3 ` og ` staerd4`.
+Til þess að gera það mæli ég með að þið búið til gagnatöflu sem inniheldur vigrana fjóra, skoðið `tibble()` fallið.
+
+Þessi gagnatafla er á svo kölluðu víðu sniði (wide format) en áður en við getum teiknað stuðlaritin þurfum við að koma henni á langt snið (long format).
+Það má gera á auðveldan hátt með ` pivot_longer() ` aðferðinni úr ` tidyr ` pakkanum.
+
+Skoðið gagnatöfluna sem verður til áður en lengra er haldið og gangið úr skugga um að allt sé með felldu. 
+
+Teiknið nú stuðlarit af `staerd1, staerd2, staerd3 ` og ` staerd4`.
+Teiknið sanna meðaltal þýðisins, $\mu$, inn á myndirnar með rauðri lóðréttri línu.
+
+Auðvelt er fá stuðlaritin fjögur með því að nota ` facet_wrap()` aðferðina, sjá t.d. [hér](http://docs.ggplot2.org/0.9.3.1/facet_wrap.html).
+Skalinn á x-ásnum á að vera sá sami (sjálfgefna stillingin í ` facet_wrap()` aðferðinni).
+
+Notið stillinguna `bins=50` í geom-fallinu.
+
+#### f)
+Teiknið aftur stuðlarit af `staerd1, staerd2, staerd3 ` og ` staerd4`
+en í þetta skiptið á skalinn á x-ásnum ekki að vera sá sami (skoðið `scales` viðfangið/stillinguna í `facet_wrap()` aðferðinni).
+Teiknið sanna meðaltal þýðisins, $\mu$, inn á myndirnar með rauðri lóðréttri línu.
+
+Notið stillinguna `bins=50` í geom-fallinu.
+
+#### g)
+Reiknið meðaltal og dreifni meðaltalanna sem fengust í lið d) hér fyrir framan fyrir $n = 2, \ n = 5, \ n = 20$ og $n = 400$.
+Sýnið niðurstöðuna í töflu ásamt meðaltali og dreifni þýðisins sem voru reiknuð í b) lið.
+
+#### h)
+Setjið fram höfuðmarkgildisregluna, bæði forsendur og niðurstöðu.
+
+Sjá [hér](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html) hvernig setja má upp stærðfræði í RMarkdown.
+
+#### i) 
+Lýsið stuttlega með eigin orðum því sem þið sjáið á myndunum úr lið e) og f) og niðurstöðum ykkar úr lið g) og hvernig það tengist höfuðmarkgildisreglunni.
+
