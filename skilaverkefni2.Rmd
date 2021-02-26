@@ -1,6 +1,6 @@
 ---
 title: "Tölvuverkefni 2"
-author: "Líkindareikningur og tölfræði: STÆ203G, HAG206G, MAS201F"
+author: "Ari Sigþór Eiríksson og Tristan Freyr Jónsson"
 output: 
   rmarkdown::html_document:
     theme: cosmo
@@ -79,12 +79,15 @@ b
 ```{r}
 m = mean(at$nuvirdi)
 s = var(at$nuvirdi)
+```
 
+```{r, echo=FALSE}
 print("Meðaltal verðs á íbúðunum (reiknað með mean falli) er:")
 print(m)
 print("og dreifni (reiknað með var falli) er:")
 print(s)
 ```
+
 #### c)
 Við lítum nú svo á að við höfum mælingar á öllu þýðinu, þ.e. íbúðirnar í gagnatöflunni ykkar eru þýðið og eiginleikinn sem við höfum mælt er verð þeirra, `nuvirdi`.
 Við þekkjum því $\mu$ og $\sigma^2$ og reiknuðum þessar stærðir í lið b). 
@@ -176,7 +179,7 @@ f + geom_vline(xintercept = m, color = "red")
 Reiknið meðaltal og dreifni meðaltalanna sem fengust í lið d) hér fyrir framan fyrir $n = 2, \ n = 5, \ n = 20$ og $n = 400$.
 Sýnið niðurstöðuna í töflu ásamt meðaltali og dreifni þýðisins sem voru reiknuð í b) lið.
 
-```{r}
+```{r, message= FALSE, warning=FALSE}
 mean1 <- mean(staerd1)
 mean2 <- mean(staerd2)
 mean3 <- mean(staerd3)
@@ -196,6 +199,8 @@ bind_rows(table, tibble(Stærðir="Þýði", mean=m, dreifni=s))
 Setjið fram höfuðmarkgildisregluna, bæði forsendur og niðurstöðu.
 
 Sjá [hér](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html) hvernig setja má upp stærðfræði í RMarkdown.
+
+
 
 **Höfuðmarkgildisreglan:** 
 \
@@ -220,3 +225,4 @@ $P(\frac{X_{1}+...+X_{n}-n\mu}{\sigma\sqrt{n}}\le{x})\rightarrow \Phi(x),$ $n \r
 #### i) 
 Lýsið stuttlega með eigin orðum því sem þið sjáið á myndunum úr lið e) og f) og niðurstöðum ykkar úr lið g) og hvernig það tengist höfuðmarkgildisreglunni.
 
+Ef myndirnar í e og f lið eru skoðaðar sés á þeim að normaldreifing næst á mynd 3 og 4, en ekki á mynd 1 og 2. Þetta er í samræmi við höfuðmarkgildisregluna þar sem ef n er meira en 30 þá á normaldreifing að nást og stundum ef n er minna. Í okkar tilfelli er 20 nóg og 40 lítur mjög vel út. 2 og 5 gildi virðist samt ekki vera nóg til að sýna normaldreifinguna. Ef litið er á dreifni í töflu úr g lið sést að dreifni er mjög stór í 1 og 2, en er minni í 2 og 4. Dreifnin er sirka helminguð í hverjum dálki. 
