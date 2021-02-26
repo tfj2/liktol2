@@ -33,6 +33,7 @@ Lesið gagnaskrána inn og geymið í hlut sem ber upphafsstafi þeirra sem verk
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
   library(readr)
   library(dplyr)
   library(ggplot2)
@@ -144,9 +145,18 @@ Skalinn á x-ásnum á að vera sá sami (sjálfgefna stillingin í ` facet_wrap
 Notið stillinguna `bins=50` í geom-fallinu.
 
 ```{r}
-
+tib <- tibble(staerd1, staerd2, staerd3, staerd4)
+tib2 <- tib %>% pivot_longer(cols = starts_with('s'), names_to = "Stærðir", values_to = "kr")
+tib2
 ```
 
+Hér er allt eins og það á að vera í töflunni.
+
+```{r}
+b <- ggplot(tib2, aes(kr)) + geom_histogram()
+b <- b + facet_wrap(vars(Stærðir))
+b + geom_vline(xintercept = m, color = "red")
+```
 
 #### f)
 Teiknið aftur stuðlarit af `staerd1, staerd2, staerd3 ` og ` staerd4`
