@@ -119,8 +119,10 @@ Endurtakið leikinn fyrir $n = 5, \ n = 20$ og $n = 400$ og nefnið vigrana `sta
 Notið `replicate()` aðferðina til að auðvelda ykkur verkið.
 
 ```{r}
-n = 1:10000
-
+staerd1 <- replicate(10000, mean(sample(at$nuvirdi, size = 2, replace = TRUE)))
+staerd2 <- replicate(10000, mean(sample(at$nuvirdi, size = 5, replace = TRUE)))
+staerd3 <- replicate(10000, mean(sample(at$nuvirdi, size = 20, replace = TRUE)))
+staerd4 <- replicate(10000, mean(sample(at$nuvirdi, size = 40, replace = TRUE)))
 ```
 
 
@@ -140,6 +142,11 @@ Auðvelt er fá stuðlaritin fjögur með því að nota ` facet_wrap()` aðfer�
 Skalinn á x-ásnum á að vera sá sami (sjálfgefna stillingin í ` facet_wrap()` aðferðinni).
 
 Notið stillinguna `bins=50` í geom-fallinu.
+
+```{r}
+
+```
+
 
 #### f)
 Teiknið aftur stuðlarit af `staerd1, staerd2, staerd3 ` og ` staerd4`
