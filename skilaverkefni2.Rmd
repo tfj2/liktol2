@@ -153,9 +153,9 @@ tib2
 Hér er allt eins og það á að vera í töflunni.
 
 ```{r}
-b <- ggplot(tib2, aes(kr)) + geom_histogram()
-b <- b + facet_wrap(vars(Stærðir))
-b + geom_vline(xintercept = m, color = "red")
+e <- ggplot(tib2, aes(kr)) + geom_histogram(bins = 50)
+e <- e + facet_wrap(vars(Stærðir))
+e + geom_vline(xintercept = m, color = "red")
 ```
 
 #### f)
@@ -164,6 +164,13 @@ en í þetta skiptið á skalinn á x-ásnum ekki að vera sá sami (skoðið `s
 Teiknið sanna meðaltal þýðisins, $\mu$, inn á myndirnar með rauðri lóðréttri línu.
 
 Notið stillinguna `bins=50` í geom-fallinu.
+
+```{r}
+f <- ggplot(tib2, aes(kr)) + geom_histogram(bins = 50)
+f <- f + facet_wrap(vars(Stærðir), scales = "free_y")
+f + geom_vline(xintercept = m, color = "red")
+```
+
 
 #### g)
 Reiknið meðaltal og dreifni meðaltalanna sem fengust í lið d) hér fyrir framan fyrir $n = 2, \ n = 5, \ n = 20$ og $n = 400$.
