@@ -187,8 +187,8 @@ std2 <- var(staerd2)
 std3 <- var(staerd3)
 std4 <- var(staerd4)
 
-table <- tib2 %>% group_by(Stærðir) %>% summarise(mean = mean(Stærðir))
-table
+table <- tib2 %>% group_by(Stærðir) %>% summarise(mean = mean(kr), dreifni = var(kr),)
+bind_rows(table, tibble(Stærðir="Þýði", mean=m, dreifni=s))
 ```
 
 
