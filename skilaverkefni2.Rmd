@@ -196,6 +196,26 @@ Setjið fram höfuðmarkgildisregluna, bæði forsendur og niðurstöðu.
 
 Sjá [hér](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html) hvernig setja má upp stærðfræði í RMarkdown.
 
+**Höfuðmarkgildisreglan:** 
+\
+\
+Látum $X_{1}$, $X_{2}$, ... vera óháðar slembistærðir sem allar hafa sama dreififall með endanlegt væntigildi
+\
+\
+$\mu=E[X_{i}], i=1,2,...,$ 
+\
+\
+og endanlega strangt jákvæða dreifni
+\
+\
+$\sigma^{2}=Var[X_{i}], i=1,2,...$.
+\
+\
+Þá gildir fyrir öll $x \in R$ að
+\
+\
+$P(\frac{X_{1}+...+X_{n}-n\mu}{\sigma\sqrt{n}}\le{x})\rightarrow \Phi(x),$ $n \rightarrow \infty$
+
 #### i) 
 Lýsið stuttlega með eigin orðum því sem þið sjáið á myndunum úr lið e) og f) og niðurstöðum ykkar úr lið g) og hvernig það tengist höfuðmarkgildisreglunni.
 
