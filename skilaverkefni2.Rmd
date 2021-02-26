@@ -78,11 +78,11 @@ b
 
 ```{r}
 m = mean(at$nuvirdi)
-s = sd(at$nuvirdi)
+s = var(at$nuvirdi)
 
 print("Meðaltal verðs á íbúðunum (reiknað með mean falli) er:")
 print(m)
-print("og dreifni (reiknað með standard deviation falli) er:")
+print("og dreifni (reiknað með var falli) er:")
 print(s)
 ```
 #### c)
@@ -175,6 +175,21 @@ f + geom_vline(xintercept = m, color = "red")
 #### g)
 Reiknið meðaltal og dreifni meðaltalanna sem fengust í lið d) hér fyrir framan fyrir $n = 2, \ n = 5, \ n = 20$ og $n = 400$.
 Sýnið niðurstöðuna í töflu ásamt meðaltali og dreifni þýðisins sem voru reiknuð í b) lið.
+
+```{r}
+mean1 <- mean(staerd1)
+mean2 <- mean(staerd2)
+mean3 <- mean(staerd3)
+mean4 <- mean(staerd4)
+
+std1 <- var(staerd1)
+std2 <- var(staerd2)
+std3 <- var(staerd3)
+std4 <- var(staerd4)
+
+
+```
+
 
 #### h)
 Setjið fram höfuðmarkgildisregluna, bæði forsendur og niðurstöðu.
